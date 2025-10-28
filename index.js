@@ -1,7 +1,8 @@
-
+let timeout
 async function onLoadFunction() {
-	const notExistedVehicleImages = [ 'astron2', 'arbitergt', 'cyclone2', 'ignus2', 's95' ];
 	const boxContainer = document.querySelector( '.boxContainer' );
+
+	const notExistedVehicleImages = [ 'astron2', 'arbitergt', 'cyclone2', 'ignus2', 's95' ];
 	const cacheKey = 'vehiclesData';
 	let vehicles = [];
 	const cached = localStorage.getItem( cacheKey );
@@ -32,6 +33,31 @@ async function onLoadFunction() {
 	}
 }
 
+function findSpecified( findBy = "" ) {
+	const carBox = document.querySelectorAll( '.carBox' )
+	if ( !findBy.length ) {
+		Array.from( carBox ).forEach( ( e ) => {
+			Array.from( carBox ).forEach( e => e.classList.remove( 'hidden' ) );
+			e.style.border = '1px solid gray'
+
+		} )
+		return;
+	}
+	const imageDiv = document.querySelectorAll( '.image' ) 
+
+	Array.from( carBox ).forEach( e => e.classList.add( 'hidden' ) );
+
+	const finder = Array.from( imageDiv ).find( e => e.dataset.id === findBy.toLowerCase() )
+	if ( finder && finder.parentElement ) {
+		finder.parentElement.style.display = 'flex'
+		finder.parentElement.style.border = '1px solid gold'
+
+	}
+
+}
+
+
+
 function renderVehicles( data, container, excluded ) {
 	const observer = new IntersectionObserver( entries => {
 		entries.forEach( entry => {
@@ -44,7 +70,7 @@ function renderVehicles( data, container, excluded ) {
 		} );
 	}, {
 		root: null,
-		rootMargin: '100px', 
+		rootMargin: '100px',
 		threshold: 0.1
 	} );
 
@@ -55,9 +81,14 @@ function renderVehicles( data, container, excluded ) {
 		carBox.className = 'carBox';
 
 		const imageDiv = document.createElement( 'div' );
+		const vehicleNameDiv = document.createElement( 'div' )
 		imageDiv.className = 'image';
 		imageDiv.dataset.id = vehicleModel;
+		vehicleNameDiv.className = 'vehicleName'
+		vehicleNameDiv.innerText = vehicleModel
 		carBox.appendChild( imageDiv );
+		carBox.appendChild( vehicleNameDiv );
+
 		container.appendChild( carBox );
 
 		observer.observe( imageDiv );
@@ -68,3 +99,19 @@ function renderVehicles( data, container, excluded ) {
 }
 
 document.addEventListener( 'DOMContentLoaded', onLoadFunction );
+
+
+function research( ev ) {
+	if ( ev.target.matches( 'input[type="text"], input[type="search"]' ) ) {
+		if ( timeout ) {
+			clearTimeout( timeout )
+		}
+		timeout = setTimeout( () => {
+			const findSimilarItemStartingWith = ev.target.value
+			findSpecified( findSimilarItemStartingWith.trim() )
+		}, 300 )
+	}
+
+}
+
+document.addEventListener( "input", research )
