@@ -38,32 +38,30 @@ function findSpecified( findBy = "" ) {
 	if ( !findBy.length ) {
 		Array.from( carBox ).forEach( ( e ) => {
 			Array.from( carBox ).forEach( e => e.classList.remove( 'hidden' ) );
-			e.style.border = '1px solid gray'
+			e.style.border = '1px solid rgba(65, 209, 154, 0.233)'
 
 		} )
 		return;
 	}
-	const imageDiv = document.querySelectorAll( '.image' ) 
+
+	const imageDiv = document.querySelectorAll( '.image' )
 
 	Array.from( carBox ).forEach( e => e.classList.add( 'hidden' ) );
 
-	const finder = Array.from( imageDiv ).find( e => e.dataset.id === findBy.toLowerCase() )
+	const finder = Array.from( imageDiv ).find( e => e.id === findBy.toLowerCase() )
 	if ( finder && finder.parentElement ) {
-		finder.parentElement.style.display = 'flex'
-		finder.parentElement.style.border = '1px solid gold'
-
+		finder.parentElement.classList.remove( 'hidden' )
+		finder.parentElement.style.border = '1px solid rgb(65, 209, 154)'
 	}
 
 }
-
-
 
 function renderVehicles( data, container, excluded ) {
 	const observer = new IntersectionObserver( entries => {
 		entries.forEach( entry => {
 			if ( entry.isIntersecting ) {
 				const el = entry.target;
-				const id = el.dataset.id;
+				const id = el.id;
 				el.style.backgroundImage = `url(https://docs.fivem.net/vehicles/${id}.webp)`;
 				observer.unobserve( el );
 			}
@@ -79,18 +77,16 @@ function renderVehicles( data, container, excluded ) {
 		if ( !vehicleModel || excluded.includes( vehicleModel ) ) return;
 		const carBox = document.createElement( 'div' );
 		carBox.className = 'carBox';
-
 		const imageDiv = document.createElement( 'div' );
 		const vehicleNameDiv = document.createElement( 'div' )
 		imageDiv.className = 'image';
-		imageDiv.dataset.id = vehicleModel;
+		imageDiv.id = vehicleModel;
 		vehicleNameDiv.className = 'vehicleName'
 		vehicleNameDiv.innerText = vehicleModel
+		carBox.id = vehicleModel;
 		carBox.appendChild( imageDiv );
 		carBox.appendChild( vehicleNameDiv );
-
 		container.appendChild( carBox );
-
 		observer.observe( imageDiv );
 	} );
 	setTimeout( () => {
@@ -115,3 +111,12 @@ function research( ev ) {
 }
 
 document.addEventListener( "input", research )
+
+
+function executeSpawn( ev ) {
+	const vehicleModel = ev.target.id
+	console.log( `Call event: CEF=> RAEG:MP spawnVehicle(${ev.target.id})` )
+	mp.trigger( 'veh-search:ExecuteSpawn', vehicleModel )
+
+}
+document.addEventListener( "click", executeSpawn )
