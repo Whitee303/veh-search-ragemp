@@ -1,5 +1,5 @@
 "use strict";
-var viewURL = "http://package/Testowy-Serwer/TS-veh-search/veh-search/index.html";
+var viewURL = "http://package/Your/Link";
 var view;
 var localPlayer = mp.players.local;
 var client = {
