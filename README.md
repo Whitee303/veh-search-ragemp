@@ -29,8 +29,8 @@ This project was created for developers and RAGEMP enthusiasts who want a fast a
 ## Current version of Project
  - Currently project is in early development because i started working on it from yesterday.
  - In further version on project i'll add native RAGE:MP functions for spawning vehicle and getting more details about what we selected.
- - Not every vehicle is avaliable (As u can see in notExistedVehicleImages array) 'cause i don't seen graphics for it on FiveM page. But don't worry - I have a few ideas to fix it :>
- - I'll improve inputbar mechanics for searching what we want :)
+ - Not every vehicle is avaliable (As u can see in notExistedVehicleImages array) 'cause i don't seen graphics for it on FiveM page. But don't worry - I have a few ideas to fix it.
+ - I'll improve inputbar mechanics for searching what we want.
 
 ## 🛠️ Installation
 
