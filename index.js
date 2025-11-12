@@ -114,9 +114,9 @@ document.addEventListener( "input", research )
 
 
 function executeSpawn( ev ) {
-	const vehicleModel = ev.target.id
-	console.log( `Call event: CEF=> RAEG:MP spawnVehicle(${ev.target.id})` )
-	mp.trigger( 'veh-search:ExecuteSpawn', vehicleModel )
-
+	if ( ev.target.className == 'carBox' || ev.target.className == 'image' || ev.target.className == 'vehicleName' ) {
+		const vehicleModel = ev.target.id
+		mp.trigger( 'veh-search:ExecuteSpawn', vehicleModel )
+	}
 }
 document.addEventListener( "click", executeSpawn )
